@@ -1,0 +1,13 @@
+fastapi
+
+sqlalchemy
+
+uvicorn
+
+pyjwt
+
+pwdlib[argon]
+
+pydantic
+
+datetime
