@@ -28,3 +28,7 @@ def change_Password(payload:Change_Password,db:Session=Depends(get_db),id:int|No
 @router.put('/change_dob',status_code=status.HTTP_202_ACCEPTED)
 def update_DOB(payload:Update_DOB,db:Session=Depends(get_db),id:int|None = None,email:str|None = None):
     return user.update_DOB(payload,db,id,email)
+
+@router.delete('/delete_user',status_code=status.HTTP_200_OK)
+def delete_User(db:Session = Depends(get_db),u_id:int|None = None,email:str|None = None):
+    return user.delete_User(db,u_id,email)

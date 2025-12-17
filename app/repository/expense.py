@@ -49,3 +49,14 @@ def update_Expense(payload:schemas.Update_Expense,db:Session,e_id:int|None = Non
     db.refresh(expense)
 
     return {"message":"Expense Updated!!"}
+
+def delete_Expense(e_id:int,db:Session):
+    expense = db.query(models.Expenses).filter(models.Expenses.exp_id == e_id).first()
+
+    if not expense:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"No records found with id = {e_id}")
+    
+    db.delete(expense)
+    db.commit()
+
+    return {"message":"Succesfully removed from the records!!"}

@@ -108,3 +108,17 @@ def update_DOB(payload:schemas.Update_DOB,db:Session,id:int|None = None,email:st
     db.refresh(user)
 
     return {"message":"The DOB is updated"}
+
+def delete_User(db:Session,u_id:int|None = None,email:str|None = None):
+    user = get_user(models.User,db,u_id,email)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    db.delete(user)
+    db.commit()
+
+    return {"message":"User account deleted permanently!!"}

@@ -99,14 +99,16 @@ class Update_Expense(BaseModel):
     description : str|None = None
 
 class Create_Debt(BaseModel):
-    amount : float
-    purpose : str|None = None
-    interest : float
-    due_date : str
+    amount: float
+    purpose: str | None = None
+    interest: float
+    due_date: date
 
-    @field_validator("due_date")
+    @field_validator("due_date", mode="before")
     @classmethod
-    def validate_due_date(cls, v: str) -> date:
+    def parse_due_date(cls, v):
+        if isinstance(v, date):
+            return v
         try:
             return datetime.strptime(v, "%d/%m/%Y").date()
         except ValueError:
@@ -124,6 +126,17 @@ class Show_Debt_Details(BaseModel):
     creditor_details : Show_User
     debtor_details : Show_User
 
+    @computed_field
+    @property
+    def amount_due(self) -> float:
+        today = date.today()
+        months = (self.due_date.year - today.year) * 12 + (self.due_date.month - today.month)
+
+        if self.due_date.day < today.day :
+            months -= 1
+        
+        return  self.amount + (self.interest * months * self.amount)/100
+
     model_config = ConfigDict(from_attributes=True)
 
 class Show_Debt_On_User(BaseModel):
@@ -137,6 +150,17 @@ class Show_Debt_On_User(BaseModel):
     due_date : date
     creditor_details : Show_User
 
+    @computed_field
+    @property
+    def amount_due(self) -> float:
+        today = date.today()
+        months = (self.due_date.year - today.year) * 12 + (self.due_date.month - today.month)
+
+        if self.due_date.day < today.day :
+            months -= 1
+        
+        return  self.amount + (self.interest * months * self.amount)/100
+
     model_config = ConfigDict(from_attributes=True)
 
 class Show_Credit_On_User(BaseModel):
@@ -149,5 +173,16 @@ class Show_Credit_On_User(BaseModel):
     issued_date : datetime
     due_date : date
     debtor_details : Show_User
+
+    @computed_field
+    @property
+    def amount_due(self) -> float:
+        today = date.today()
+        months = (self.due_date.year - today.year) * 12 + (self.due_date.month - today.month)
+
+        if self.due_date.day < today.day :
+            months -= 1
+        
+        return  self.amount + (self.interest * months * self.amount)/100
 
     model_config = ConfigDict(from_attributes=True)

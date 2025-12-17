@@ -35,7 +35,8 @@ class User(Base):
     debt_active : Mapped[list["Debt"]] = relationship(
         "Debt",
         foreign_keys="Debt.debtor_id",
-        back_populates="debtor_details"
+        back_populates="debtor_details",
+        cascade="all, delete-orphan"
     )
 
 class Expenses(Base):
