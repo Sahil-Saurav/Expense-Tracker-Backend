@@ -26,6 +26,6 @@ def show_Debt_On_User(db:Session = Depends(get_db),debtor_id:int|None = None,ema
 def show_Credit_On_User(db:Session = Depends(get_db),creditor_id:int|None = None,email:str|None = None):
     return debt.show_Credit_On_User(db,creditor_id,email)
 
-@router.delete('delete_debt',status_code=status.HTTP_200_OK)
+@router.delete('/delete_debt',status_code=status.HTTP_200_OK)
 def delete_Debt(d_id:int,db:Session = Depends(get_db)):
     return debt.delete_Debt(d_id,db)

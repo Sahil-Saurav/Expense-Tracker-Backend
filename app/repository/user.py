@@ -118,6 +118,11 @@ def delete_User(db:Session,u_id:int|None = None,email:str|None = None):
             detail="User not found"
         )
     
+    debts = db.query(models.Debt).filter(models.Debt.debtor_id == user.u_id).all()
+
+    if debts : 
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Can't remove the User as he has an active debt associated to his account,first clear all debt then try to remove account.")
+    
     db.delete(user)
     db.commit()
 

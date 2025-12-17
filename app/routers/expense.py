@@ -27,6 +27,6 @@ def show_User_Expense(u_id:int,db:Session = Depends(get_db)):
 def update_Expense(payload:Update_Expense,db:Session = Depends(get_db),e_id:int|None = None):
     return expense.update_Expense(payload,db,e_id)
 
-@router.delete('delete_expense',status_code=status.HTTP_200_OK)
+@router.delete('/delete_expense',status_code=status.HTTP_200_OK)
 def delete_Expense(e_id:int,db:Session = Depends(get_db)):
     return expense.delete_Expense(e_id,db)

@@ -71,7 +71,7 @@ def show_Credit_On_User(db:Session,creditor_id:int|None = None,email:str|None = 
     return credits
 
 def delete_Debt(d_id:int,db:Session):
-    debt = db.query(models.Expenses).filter(models.Debt.d_id == d_id).first()
+    debt = db.query(models.Debt).filter(models.Debt.d_id == d_id).first()
 
     if not debt:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"No records found with id = {d_id}")
