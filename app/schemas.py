@@ -186,3 +186,15 @@ class Show_Credit_On_User(BaseModel):
         return  self.amount + (self.interest * months * self.amount)/100
 
     model_config = ConfigDict(from_attributes=True)
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: str | None = None
+
+class Login(BaseModel):
+    email:str
+    password:str

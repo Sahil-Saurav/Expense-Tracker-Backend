@@ -11,3 +11,8 @@ pwdlib[argon]
 pydantic
 
 datetime
+
+python-dotenv
+
+
+python-multipart
